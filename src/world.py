@@ -10,7 +10,7 @@ class World():
         self.path = path
         self.level = amulet.load_level(path)
 
-def try_load_world(path: str):
+def try_load_world(path: str) -> World:
     try:
         w = World(path)
     except Exception as e:
