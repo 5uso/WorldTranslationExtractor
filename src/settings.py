@@ -41,7 +41,11 @@ class Settings:
                 info['missing_extractors'] = missing_extractors
 
         s.out_lang = args.lang
-        if not os.access(s.out_lang, os.R_OK):
+        try:
+            with open(s.out_lang, 'w') as f:
+                if not f.writable():
+                    raise Exception
+        except Exception:
             info['cannot_write'] = s.out_lang
 
         if info:

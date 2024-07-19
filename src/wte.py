@@ -20,6 +20,7 @@ def get_argument_parser() -> argparse.ArgumentParser:
 
     parser.add_argument('--world', '-w', type=str, required=True, help=_('Path to the target world.'))
     parser.add_argument('--out', '-o', type=str, help=_('Path to output a translated copy of the world. By default, outputs to <WORLD>_wte.'))
+    parser.add_argument('--force', '-f', type=bool, action=argparse.BooleanOptionalAction, default=False, help=_('Delete previous contents of <OUT> before extracting.'))
     parser.add_argument('--lang', '-l', type=str, default='wte_lang.json', help=_('Path to output translation json. By default, outputs to wte_lang.json.'))
     parser.add_argument('--extract', '-e', type=str, action="append", help=_('An extractor to run over the world, multiple may be selected. If no extractors are specified, all available extractors will be run.'))
 
@@ -37,6 +38,8 @@ def run_terminal(args: argparse.Namespace) -> None:
     path = f'{args.world}_wte' if args.out is None else args.out
 
     try:
+        if args.force:
+            shutil.rmtree(path)
         shutil.copytree(args.world, path, symlinks=False, ignore=None, copy_function=shutil.copy2, ignore_dangling_symlinks=False, dirs_exist_ok=False)
     except Exception as e:
         print(_('Could not copy world: {}.\nExiting...').format(e))
@@ -54,5 +57,4 @@ def run_terminal(args: argparse.Namespace) -> None:
         print(_('Invalid settings: {}\nExiting...').format(e))
         exit(ExitCode.INVALID_SETTINGS)
 
-    print(s.extractors)
     extract.extract(w, s)
