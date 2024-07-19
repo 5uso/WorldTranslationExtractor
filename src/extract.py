@@ -18,5 +18,5 @@ def list_extractors() -> dict[ExtractorPass,list]:
         
     return extractors
 
-def extract(world: World, settings: 'Settings'):
+def extract(world: World, settings: 'Settings') -> None:
     pass
