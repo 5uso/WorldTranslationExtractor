@@ -22,7 +22,8 @@ def get_argument_parser() -> argparse.ArgumentParser:
     parser.add_argument('--out', '-o', type=str, help=_('Path to output a translated copy of the world. By default, outputs to <WORLD>_wte.'))
     parser.add_argument('--force', '-f', type=bool, action=argparse.BooleanOptionalAction, default=False, help=_('Delete previous contents of <OUT> before extracting.'))
     parser.add_argument('--lang', '-l', type=str, default='wte_lang.json', help=_('Path to output translation json. By default, outputs to wte_lang.json.'))
-    parser.add_argument('--extract', '-e', type=str, action="append", help=_('An extractor to run over the world, multiple may be selected. If no extractors are specified, all available extractors will be run.'))
+    parser.add_argument('--extract', '-e', type=str, action='append', help=_('An extractor to run over the world, multiple may be selected. If no extractors are specified, all available extractors will be run.'))
+    parser.add_argument('--dimension', '-d', type=str, action='append', help=_('A dimension to scan, multiple may be selected. If no dimensions are specified, all dimensions will be scanned.'))
 
     return parser
 

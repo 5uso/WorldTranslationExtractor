@@ -14,7 +14,7 @@ class InvalidSettingsException(Exception):
             problems.append(_('Extractors not found {}').format(info['missing_extractors']))
         if 'cannot_write' in info:
             problems.append(_('Could not write to file \'{}\'').format(info['cannot_write']))
-        message = _("; ").join(problems)
+        message = _("; ").join(problems) + '.'
 
         super().__init__(message)
 
@@ -28,6 +28,7 @@ class Settings:
     def __init__(self) -> None:
         self.extractors = {k: [] for k in ExtractorPass}
         self.out_lang = ''
+        self.dimensions = []
 
     def from_args(args: Namespace) -> Self:
         s = Settings()
@@ -46,6 +47,8 @@ class Settings:
                     raise Exception
         except Exception:
             info['cannot_write'] = s.out_lang
+
+        s.dimensions = args.dimension
 
         if info:
             raise InvalidSettingsException(info)
