@@ -4,7 +4,6 @@ from extract import list_extractors
 from argparse import Namespace
 from typing import Self
 import itertools as it
-import os
 
 class InvalidSettingsException(Exception):
     def __init__(self, info: dict) -> None:

@@ -39,7 +39,10 @@ def run_terminal(args: argparse.Namespace) -> None:
 
     try:
         if args.force:
-            shutil.rmtree(path)
+            try:
+                shutil.rmtree(path)
+            except FileNotFoundError as e:
+                pass
         shutil.copytree(args.world, path, symlinks=False, ignore=None, copy_function=shutil.copy2, ignore_dangling_symlinks=False, dirs_exist_ok=False)
     except Exception as e:
         print(_('Could not copy world: {}.\nExiting...').format(e))
