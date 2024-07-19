@@ -8,7 +8,13 @@ import itertools as it
 class InvalidSettingsException(Exception):
     def __init__(self, info: dict) -> None:
         self.info = info
-        super().__init__(_('Extractors not found {}').format(info['missing_extractors']))
+
+        problems = []
+        if info['missing_extractors']:
+            problems.append(_('Extractors not found {}').format(info['missing_extractors']))
+        message = _("; ").join(problems)
+
+        super().__init__(message)
 
 def filter_extractors(extract: list[str], extractors: dict[ExtractorPass,list]) -> tuple[dict[ExtractorPass,list],list[str]]:
     return (
@@ -26,8 +32,11 @@ class Settings:
 
         s.extractors = list_extractors()
         if args.extract:
-            s.extractors, info['missing_extractors'] = filter_extractors(args.extract, s.extractors)
-            if info['missing_extractors']:
-                raise InvalidSettingsException(info)
+            s.extractors, missing_extractors = filter_extractors(args.extract, s.extractors)
+            if missing_extractors:
+                info['missing_extractors'] = missing_extractors
+
+        if info:
+            raise InvalidSettingsException(info)
 
         return s
