@@ -2,6 +2,7 @@ from extractor_pass import ExtractorPass
 from world import World
 
 from glob import glob
+from tqdm import tqdm
 import os
 
 from typing import TYPE_CHECKING
@@ -19,4 +20,23 @@ def list_extractors() -> dict[ExtractorPass,list]:
     return extractors
 
 def extract(world: World, settings: 'Settings') -> None:
-    pass
+    for dimension in world.level.dimensions:
+        if settings.dimensions and dimension not in settings.dimensions:
+            continue
+        
+        chunk_coords = sorted(world.level.all_chunk_coords(dimension))
+        if not chunk_coords:
+            continue
+
+        print(_('Scanning dimension \'{}\'...').format(dimension))
+        for i, coord in enumerate(tqdm(chunk_coords, unit = "chunk")):
+            chunk = world.level.get_chunk(*coord, dimension)
+            entities = world.level.get_native_entities(*coord, dimension)
+
+            if not (i + 1) % settings.batch:
+                print()
+                world.level.save()
+                world.level.unload()
+        world.level.save()
+        world.level.unload()
+    world.level.close()

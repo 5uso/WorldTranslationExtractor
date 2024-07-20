@@ -52,7 +52,7 @@ class Settings:
         except Exception:
             info['cannot_write'] = s.out_lang
 
-        s.dimensions = args.dimension
+        s.dimensions = [d if ':' in d else f'minecraft:{d}' for d in args.dimension] if args.dimension else []
         s.keepdup = args.keepdup
         s.sort = args.sort
         s.batch = args.batch

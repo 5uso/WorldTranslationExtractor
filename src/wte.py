@@ -6,11 +6,15 @@ import argparse
 import shutil
 import enum
 
+from amulet.api.errors import ChunkLoadError
+
 class ExitCode(enum.IntEnum):
+    INTERRUPTED = 1
     SUCCESS = 0
     NO_WORLD = -1
     INVALID_SETTINGS = -2
     COULD_NOT_COPY = -3
+    CHUNK_LOAD_ERROR = -4
 
 def get_argument_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
@@ -65,4 +69,11 @@ def run_terminal(args: argparse.Namespace) -> None:
         print(_('Invalid settings: {}\nExiting...').format(e))
         exit(ExitCode.INVALID_SETTINGS)
 
-    extract.extract(w, s)
+    try:
+        extract.extract(w, s)
+    except KeyboardInterrupt:
+        print(_('Extraction interrupted. Output file partially translated.\nExiting...'))
+        exit(ExitCode.INTERRUPTED)
+    except ChunkLoadError as e:
+        print(_('Error loading chunk: {}\nThis error may indicate the version of amulet you\'re using is not compatible with your Minecraft version.\nExiting...').format(e))
+        exit(ExitCode.CHUNK_LOAD_ERROR)
