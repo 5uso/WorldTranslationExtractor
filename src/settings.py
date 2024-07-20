@@ -29,6 +29,10 @@ class Settings:
         self.extractors = {k: [] for k in ExtractorPass}
         self.out_lang = ''
         self.dimensions = []
+        self.keepdup = False
+        self.sort = False
+        self.batch = 0
+        self.indent = 0
 
     def from_args(args: Namespace) -> Self:
         s = Settings()
@@ -49,6 +53,10 @@ class Settings:
             info['cannot_write'] = s.out_lang
 
         s.dimensions = args.dimension
+        s.keepdup = args.keepdup
+        s.sort = args.sort
+        s.batch = args.batch
+        s.indent = args.indent
 
         if info:
             raise InvalidSettingsException(info)
