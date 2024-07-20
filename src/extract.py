@@ -115,12 +115,18 @@ def extract(world: World, settings: 'Settings') -> None:
     dictionary = Dictionary(settings)
     extractors = {k: [x(settings) for x in settings.extractors[k]] for k in settings.extractors}
 
+    print(_('Extracting from world:'))
     handle_chunks(world, settings, dictionary, extractors)
+    print(_('Extracting from structures...'))
     handle_structures(world.path, dictionary, extractors)
+    print(_('Extracting from data files...'))
     handle_data_files(world.path, dictionary, extractors[ExtractorPass.DATA_FILE])
+    print(_('Extracting from text files...'))
     handle_text_files(world.path, dictionary, extractors[ExtractorPass.TEXT_FILE])
 
     print(_('Outputting lang to \'{}\'...').format(settings.out_lang))
     lang = dictionary.reverse()
     with open(settings.out_lang, 'w') as f:
         json.dump(lang, f, indent=settings.indent, sort_keys=settings.sort)
+
+    print(_('Done!'))
