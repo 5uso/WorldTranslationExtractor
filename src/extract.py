@@ -4,6 +4,7 @@ from world import World
 
 from glob import glob
 from tqdm import tqdm
+import json
 import os
 
 from amulet.api.data_types import VersionIdentifierType, Dimension, ChunkCoordinates
@@ -71,3 +72,8 @@ def extract(world: World, settings: 'Settings') -> None:
     dictionary = Dictionary(settings)
 
     handle_chunks(world, settings, dictionary)
+
+    print(_('Outputting lang to \'{}\'...').format(settings.out_lang))
+    lang = dictionary.reverse()
+    with open(settings.out_lang, 'w') as f:
+        json.dump(lang, f, indent=settings.indent, sort_keys=settings.sort)
