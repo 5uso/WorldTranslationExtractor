@@ -24,9 +24,12 @@ if TYPE_CHECKING: from settings import Settings # Why must python torture me lik
 def list_extractors() -> dict[ExtractorPass,list]:
     extractors = {k: [] for k in ExtractorPass}
 
-    for f in glob('src/extractors/**/*.py'):
-        name = os.path.splitext(os.path.basename(f))[0]
-        module = getattr(__import__('extractors.' + name), name)
+    for f in glob('src/extractors/**/*.py', recursive=True):
+        name, ext = os.path.splitext(os.path.basename(f))
+        path = os.path.normpath(f).split(os.sep)[1:-1] + [name]
+        module = __import__(".".join(path))
+        for p in path[1:]:
+            module = getattr(module, p)
         if hasattr(module, 'extractor'):
             extractors[module.extractor.extractor_pass].append(module.extractor)
         
@@ -94,7 +97,7 @@ def handle_structures(path: str, dictionary: Dictionary, extractors: dict[Extrac
 def handle_data_files(path: str, dictionary: Dictionary, extractors: list):
     for f in glob(path + '/**/*.dat', recursive=True):
         data = nbt.load(f)
-        if any_nsc(extractor.extract(dictionary, data) for extractor in extractors if any(re.match(p, f.split('/')[-1]) for p in extractor.match_filenames)):
+        if any_nsc(extractor.extract(dictionary, data) for extractor in extractors if any(re.match(p, os.path.basename(f)) for p in extractor.match_filenames)):
             data.save_to(f)
 
 def handle_text_files(path: str, dictionary: Dictionary, extractors: list):
@@ -104,7 +107,7 @@ def handle_text_files(path: str, dictionary: Dictionary, extractors: list):
     ):
         with open(f, 'r') as fd:
             lines = fd.readlines()
-        if any_nsc(extractor.extract(dictionary, lines) for extractor in extractors if any(re.match(p, f.split('/')[-1]) for p in extractor.match_filenames)):
+        if any_nsc(extractor.extract(dictionary, lines) for extractor in extractors if any(re.match(p, os.path.basename(f)) for p in extractor.match_filenames)):
             with open(f, 'w') as fd:
                 fd.writelines(lines)
 
