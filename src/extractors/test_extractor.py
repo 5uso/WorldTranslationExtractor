@@ -1,6 +1,6 @@
-from extractors.chunk_extractor import ChunkExtractor
+from extractors.tile_extractor import TileExtractor
 
-class TestExtractor(ChunkExtractor):
+class TestExtractor(TileExtractor):
     extractor_name = 'test'
 
 extractor = TestExtractor
