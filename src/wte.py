@@ -42,7 +42,7 @@ def run() -> None:
     exit(ExitCode.SUCCESS)
 
 def run_terminal(args: argparse.Namespace) -> None:
-    print(_('Incredible. It is spinning.'))
+    print(_('Creating working copy of the world...'))
 
     path = f'{args.world}_wte' if args.out is None else args.out
 
