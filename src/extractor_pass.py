@@ -5,3 +5,4 @@ class ExtractorPass(enum.Enum):
     TILE = enum.auto()
     ENTITY = enum.auto()
     DATA_FILE = enum.auto()
+    TEXT_FILE = enum.auto()

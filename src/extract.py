@@ -94,8 +94,19 @@ def handle_structures(path: str, dictionary: Dictionary, extractors: dict[Extrac
 def handle_data_files(path: str, dictionary: Dictionary, extractors: list):
     for f in glob(path + '/**/*.dat', recursive=True):
         data = nbt.load(f)
-        any_nsc(extractor.extract(dictionary, data) for extractor in extractors if any(re.match(p, f.split('/')[-1]) for p in extractor.match_filenames))
-        data.save_to(f)
+        if any_nsc(extractor.extract(dictionary, data) for extractor in extractors if any(re.match(p, f.split('/')[-1]) for p in extractor.match_filenames)):
+            data.save_to(f)
+
+def handle_text_files(path: str, dictionary: Dictionary, extractors: list):
+    for f in it.chain(
+        glob(path + '/datapacks/*/data/*/*/**/*.mcfunction', recursive=True),
+        glob(path + '/datapacks/*/data/*/*/**/*.json', recursive=True)
+    ):
+        with open(f, 'r') as fd:
+            lines = fd.readlines()
+        if any_nsc(extractor.extract(dictionary, lines) for extractor in extractors if any(re.match(p, f.split('/')[-1]) for p in extractor.match_filenames)):
+            with open(f, 'w') as fd:
+                fd.writelines(lines)
 
 def extract(world: World, settings: 'Settings') -> None:
     dictionary = Dictionary(settings)
@@ -104,6 +115,7 @@ def extract(world: World, settings: 'Settings') -> None:
     handle_chunks(world, settings, dictionary, extractors)
     handle_structures(world.path, dictionary, extractors)
     handle_data_files(world.path, dictionary, extractors[ExtractorPass.DATA_FILE])
+    handle_text_files(world.path, dictionary, extractors[ExtractorPass.TEXT_FILE])
 
     print(_('Outputting lang to \'{}\'...').format(settings.out_lang))
     lang = dictionary.reverse()
