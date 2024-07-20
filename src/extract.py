@@ -1,5 +1,6 @@
 from extractor_pass import ExtractorPass
 from dictionary import Dictionary
+from util import any_nsc
 from world import World
 
 import itertools as it
@@ -7,6 +8,7 @@ from glob import glob
 from tqdm import tqdm
 import json
 import os
+import re
 
 from amulet.api.data_types import VersionIdentifierType, Dimension, ChunkCoordinates
 from amulet.api.chunk.entity_list import EntityList
@@ -22,7 +24,7 @@ if TYPE_CHECKING: from settings import Settings # Why must python torture me lik
 def list_extractors() -> dict[ExtractorPass,list]:
     extractors = {k: [] for k in ExtractorPass}
 
-    for f in glob('src/extractors/*.py'):
+    for f in glob('src/extractors/**/*.py'):
         name = os.path.splitext(os.path.basename(f))[0]
         module = getattr(__import__('extractors.' + name), name)
         if hasattr(module, 'extractor'):
@@ -34,14 +36,14 @@ def handle_tile(tile: BlockEntity, dictionary: Dictionary, extractors: list) -> 
     return sum(extractor.extract(dictionary, tile) for extractor in extractors if tile.base_name in extractor.match_tiles)
 
 def handle_chunk(chunk: Chunk, dictionary: Dictionary, extractors: list) -> None:
-    chunk.changed = not all(not bool(handle_tile(block_entity, dictionary, extractors)) for block_entity in chunk.block_entities)
+    chunk.changed = any_nsc(handle_tile(block_entity, dictionary, extractors) for block_entity in chunk.block_entities)
 
 def handle_entity(entity: Entity, dictionary: Dictionary, extractors: list) -> int:
     return sum(extractor.extract(dictionary, entity) for extractor in extractors if entity.base_name in extractor.match_entities)
 
 def handle_entities(entities: tuple[EntityList,VersionIdentifierType], level: Level, coord: ChunkCoordinates, dimension: Dimension, dictionary: Dictionary, extractors: list) -> None:
     entities = entities[0]
-    changed = not all(not bool(handle_entity(entity, dictionary, extractors)) for entity in entities)
+    changed = any_nsc(handle_entity(entity, dictionary, extractors) for entity in entities)
     if changed:
         level.set_native_entites(*coord, dimension, entities)
 
@@ -89,12 +91,19 @@ def handle_structures(path: str, dictionary: Dictionary, extractors: dict[Extrac
 
         structure.save_to(f)
 
+def handle_data_files(path: str, dictionary: Dictionary, extractors: list):
+    for f in glob(path + '/**/*.dat', recursive=True):
+        data = nbt.load(f)
+        any_nsc(extractor.extract(dictionary, data) for extractor in extractors if any(re.match(p, f.split('/')[-1]) for p in extractor.match_filenames))
+        data.save_to(f)
+
 def extract(world: World, settings: 'Settings') -> None:
     dictionary = Dictionary(settings)
     extractors = {k: [x(settings) for x in settings.extractors[k]] for k in settings.extractors}
 
     handle_chunks(world, settings, dictionary, extractors)
     handle_structures(world.path, dictionary, extractors)
+    handle_data_files(world.path, dictionary, extractors[ExtractorPass.DATA_FILE])
 
     print(_('Outputting lang to \'{}\'...').format(settings.out_lang))
     lang = dictionary.reverse()
