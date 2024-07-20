@@ -1,13 +1,15 @@
 from extractor_pass import ExtractorPass
 from dictionary import Dictionary
-import settings
-import world
+
 import abc
 
 class BaseExtractor(metaclass=abc.ABCMeta):
     extractor_pass = ExtractorPass.NONE
 
+    def __init__(self, settings):
+        pass
+
     @classmethod
     @abc.abstractmethod
-    def extract(self, world: world.World, settings: settings.Settings, dictionary: Dictionary) -> None:
+    def extract(self, dictionary: Dictionary, *args) -> int:
         raise NotImplementedError

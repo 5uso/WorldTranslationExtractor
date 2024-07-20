@@ -28,25 +28,25 @@ def list_extractors() -> dict[ExtractorPass,list]:
         
     return extractors
 
-def handle_tile(tile: BlockEntity, dictionary: Dictionary) -> int:
-    return 0
+def handle_tile(tile: BlockEntity, dictionary: Dictionary, extractors: list) -> int:
+    return sum(extractor.extract(dictionary, tile) for extractor in extractors if tile.base_name in extractor.match_tiles)
 
-def handle_chunk(chunk: Chunk, dictionary: Dictionary) -> None:
+def handle_chunk(chunk: Chunk, dictionary: Dictionary, extractors: list) -> None:
     for block_entity in chunk.block_entities:
-        chunk.changed |= bool(handle_tile(block_entity, dictionary))
+        chunk.changed |= bool(handle_tile(block_entity, dictionary, extractors))
 
-def handle_entity(entity: Entity, dictionary: Dictionary) -> int:
-    return 0
+def handle_entity(entity: Entity, dictionary: Dictionary, extractors: list) -> int:
+    return sum(extractor.extract(dictionary, entity) for extractor in extractors if entity.base_name in extractor.match_entities)
 
-def handle_entities(entities: tuple[EntityList,VersionIdentifierType], level: World, coord: ChunkCoordinates, dimension: Dimension, dictionary: Dictionary) -> None:
+def handle_entities(entities: tuple[EntityList,VersionIdentifierType], level: World, coord: ChunkCoordinates, dimension: Dimension, dictionary: Dictionary, extractors: list) -> None:
     entities = entities[0]
     changed = False
     for e in entities:
-        changed |= bool(handle_entity(e, dictionary))
+        changed |= bool(handle_entity(e, dictionary, extractors))
     if changed:
         level.set_native_entites(*coord, dimension, entities)
 
-def handle_chunks(world: World, settings: 'Settings', dictionary: Dictionary) -> None:
+def handle_chunks(world: World, settings: 'Settings', dictionary: Dictionary, extractors: dict[ExtractorPass,list]) -> None:
     for dimension in world.level.dimensions:
         if settings.dimensions and dimension not in settings.dimensions:
             continue
@@ -57,8 +57,8 @@ def handle_chunks(world: World, settings: 'Settings', dictionary: Dictionary) ->
 
         print(_('Scanning dimension \'{}\'...').format(dimension))
         for i, coord in enumerate(tqdm(chunk_coords, unit = "chunk")):
-            handle_chunk(world.level.get_chunk(*coord, dimension), dictionary)
-            handle_entities(world.level.get_native_entities(*coord, dimension), world.level, coord, dimension, dictionary)
+            handle_chunk(world.level.get_chunk(*coord, dimension), dictionary, extractors[ExtractorPass.TILE])
+            handle_entities(world.level.get_native_entities(*coord, dimension), world.level, coord, dimension, dictionary, extractors[ExtractorPass.ENTITY])
 
             if not (i + 1) % settings.batch:
                 print()
@@ -70,8 +70,9 @@ def handle_chunks(world: World, settings: 'Settings', dictionary: Dictionary) ->
 
 def extract(world: World, settings: 'Settings') -> None:
     dictionary = Dictionary(settings)
+    extractors = {k: [x(settings) for x in settings.extractors[k]] for k in settings.extractors}
 
-    handle_chunks(world, settings, dictionary)
+    handle_chunks(world, settings, dictionary, extractors)
 
     print(_('Outputting lang to \'{}\'...').format(settings.out_lang))
     lang = dictionary.reverse()
