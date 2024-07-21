@@ -36,13 +36,13 @@ def list_extractors() -> dict[ExtractorPass,list]:
     return extractors
 
 def handle_tile(tile: BlockEntity, dictionary: Dictionary, extractors: list) -> int:
-    return sum(extractor.extract(dictionary, tile) for extractor in extractors if tile.base_name in extractor.match_tiles)
+    return sum(extractor.extract(dictionary, tile) for extractor in extractors if any(re.fullmatch(p, tile.base_name) for p in extractor.match_tiles))
 
 def handle_chunk(chunk: Chunk, dictionary: Dictionary, extractors: list) -> None:
     chunk.changed = any_nsc(handle_tile(block_entity, dictionary, extractors) for block_entity in chunk.block_entities)
 
 def handle_entity(entity: Entity, dictionary: Dictionary, extractors: list) -> int:
-    return sum(extractor.extract(dictionary, entity) for extractor in extractors if entity.base_name in extractor.match_entities)
+    return sum(extractor.extract(dictionary, entity) for extractor in extractors if any(re.fullmatch(p, entity.base_name) for p in extractor.match_entities))
 
 def handle_entities(entities: tuple[EntityList,VersionIdentifierType], level: Level, coord: ChunkCoordinates, dimension: Dimension, dictionary: Dictionary, extractors: list) -> None:
     entities = entities[0]
@@ -97,7 +97,7 @@ def handle_structures(path: str, dictionary: Dictionary, extractors: dict[Extrac
 def handle_data_files(path: str, dictionary: Dictionary, extractors: list):
     for f in glob(path + '/**/*.dat', recursive=True):
         data = nbt.load(f)
-        if any_nsc(extractor.extract(dictionary, data) for extractor in extractors if any(re.match(p, os.path.basename(f)) for p in extractor.match_filenames)):
+        if any_nsc(extractor.extract(dictionary, data) for extractor in extractors if any(re.fullmatch(p, os.path.basename(f)) for p in extractor.match_filenames)):
             data.save_to(f)
 
 def handle_text_files(path: str, dictionary: Dictionary, extractors: list):
@@ -107,7 +107,7 @@ def handle_text_files(path: str, dictionary: Dictionary, extractors: list):
     ):
         with open(f, 'r') as fd:
             lines = fd.readlines()
-        if any_nsc(extractor.extract(dictionary, lines) for extractor in extractors if any(re.match(p, os.path.basename(f)) for p in extractor.match_filenames)):
+        if any_nsc(extractor.extract(dictionary, lines) for extractor in extractors if any(re.fullmatch(p, os.path.basename(f)) for p in extractor.match_filenames)):
             with open(f, 'w') as fd:
                 fd.writelines(lines)
 
