@@ -1,3 +1,5 @@
+from amulet_nbt import StringTag
+
 from typing import TYPE_CHECKING
 if TYPE_CHECKING: from settings import Settings
 
@@ -38,3 +40,6 @@ class Dictionary():
             return key + f'.{self.keys[key]}'
         self.keys[key] = 0
         return key
+    
+    def replace_component(self, nbt: StringTag) -> tuple[StringTag,int]:
+        return nbt, 0
