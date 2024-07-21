@@ -6,3 +6,4 @@ class ExtractorPass(enum.Enum):
     ENTITY = enum.auto()
     DATA_FILE = enum.auto()
     TEXT_FILE = enum.auto()
+    ITEM = enum.auto()

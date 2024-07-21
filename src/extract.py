@@ -16,6 +16,7 @@ from amulet.api.level.world import World as Level
 from amulet.api.block_entity import BlockEntity
 from amulet.api.entity import Entity
 from amulet.api.chunk import Chunk
+from amulet_nbt import NamedTag
 import amulet_nbt as nbt
 
 from typing import TYPE_CHECKING
@@ -110,6 +111,9 @@ def handle_text_files(path: str, dictionary: Dictionary, extractors: list):
         if any_nsc(extractor.extract(dictionary, lines) for extractor in extractors if any(re.fullmatch(p, os.path.basename(f)) for p in extractor.match_filenames)):
             with open(f, 'w') as fd:
                 fd.writelines(lines)
+
+def handle_item(item: NamedTag, dictionary: Dictionary, extractors: list) -> int:
+    return sum(extractor.extract(dictionary, item) for extractor in extractors if any(re.fullmatch(p, item['id']) for p in extractor.match_items))
 
 def extract(world: World, settings: 'Settings') -> None:
     dictionary = Dictionary(settings)
