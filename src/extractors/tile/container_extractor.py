@@ -20,7 +20,7 @@ class ContainerExtractor(TileExtractor):
         count = 0
 
         if 'CustomName' in tile.nbt:
-            tile.nbt['CustomName'], n = dictionary.replace_component(tile.nbt['CustomName'])
+            tile.nbt['CustomName'], n = dictionary.replace_component(tile.nbt['CustomName'], f'container.{tile.base_name}.{self.indexes[tile.base_name]}.name')
             count += n
 
         for item in tile.nbt['Items']:

@@ -41,5 +41,5 @@ class Dictionary():
         self.keys[key] = 0
         return key
     
-    def replace_component(self, nbt: StringTag) -> tuple[StringTag,int]:
+    def replace_component(self, nbt: StringTag, key: str) -> tuple[StringTag,int]:
         return nbt, 0
