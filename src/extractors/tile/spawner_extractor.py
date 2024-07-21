@@ -7,9 +7,9 @@ from settings import Settings
 from amulet.api.block_entity import BlockEntity
 from amulet.api.entity import Entity
 
-class BeeExtractor(TileExtractor):
-    extractor_name = 'bee'
-    match_tiles = ('beehive', 'bee_nest')
+class SpawnerExtractor(TileExtractor):
+    extractor_name = 'spawner'
+    match_tiles = ('mob_spawner')
 
     def __init__(self, settings: Settings) -> None:
         self.entity_extractors = [x(settings) for x in settings.extractors[ExtractorPass.ENTITY]]
@@ -17,11 +17,15 @@ class BeeExtractor(TileExtractor):
     def extract(self, dictionary: Dictionary, tile: BlockEntity) -> int:
         count = 0
 
-        for bee in tile.nbt['bees']:
-            namespace, base_name = str(bee['entity_data']['id']).split(':')
-            entity = Entity(namespace, base_name, 0, 0, 0, bee['entity_data'])
+        for potential in tile.nbt['SpawnPotentials']:
+            namespace, base_name = str(potential['data']['entity']['id']).split(':')
+            entity = Entity(namespace, base_name, 0, 0, 0, potential['data']['entity'])
             count += handle_entity(entity, dictionary, self.entity_extractors)
+
+        namespace, base_name = str(tile.nbt['SpawnData']['entity']['id']).split(':')
+        entity = Entity(namespace, base_name, 0, 0, 0, tile.nbt['SpawnData']['entity'])
+        count += handle_entity(entity, dictionary, self.entity_extractors)
 
         return count
 
-extractor = BeeExtractor
+extractor = SpawnerExtractor
