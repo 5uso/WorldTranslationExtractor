@@ -6,7 +6,7 @@ import abc
 
 from amulet.api.entity import Entity
 
-class EntityExtractor(BaseExtractor, metaclass=abc.ABCMeta):
+class EntityExtractor(BaseExtractor):
     extractor_pass = ExtractorPass.ENTITY
     match_entities = ()
 

@@ -6,7 +6,7 @@ import abc
 
 from amulet.api.block_entity import BlockEntity
 
-class TileExtractor(BaseExtractor, metaclass=abc.ABCMeta):
+class TileExtractor(BaseExtractor):
     extractor_pass = ExtractorPass.TILE
     match_tiles = ()
 
