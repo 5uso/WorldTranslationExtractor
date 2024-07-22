@@ -8,7 +8,7 @@ from amulet.api.block_entity import BlockEntity
 
 class DecoratedPotExtractor(TileExtractor):
     extractor_name = 'decorated_pot'
-    match_tiles = ('decorated_pot')
+    match_tiles = ('decorated_pot',)
 
     def __init__(self, settings: Settings) -> None:
         self.item_extractors = [x(settings) for x in settings.extractors[ExtractorPass.ITEM]]

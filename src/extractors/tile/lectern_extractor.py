@@ -8,7 +8,7 @@ from amulet.api.block_entity import BlockEntity
 
 class LecternExtractor(TileExtractor):
     extractor_name = 'lectern'
-    match_tiles = ('lectern')
+    match_tiles = ('lectern',)
 
     def __init__(self, settings: Settings) -> None:
         self.item_extractors = [x(settings) for x in settings.extractors[ExtractorPass.ITEM]]

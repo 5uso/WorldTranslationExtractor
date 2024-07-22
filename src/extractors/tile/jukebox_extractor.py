@@ -8,7 +8,7 @@ from amulet.api.block_entity import BlockEntity
 
 class JukeboxExtractor(TileExtractor):
     extractor_name = 'jukebox'
-    match_tiles = ('jukebox')
+    match_tiles = ('jukebox',)
 
     def __init__(self, settings: Settings) -> None:
         self.item_extractors = [x(settings) for x in settings.extractors[ExtractorPass.ITEM]]

@@ -9,7 +9,7 @@ from amulet.api.entity import Entity
 
 class TrialSpawnerExtractor(TileExtractor):
     extractor_name = 'trial_spawner'
-    match_tiles = ('trial_spawner')
+    match_tiles = ('trial_spawner',)
 
     def __init__(self, settings: Settings) -> None:
         self.entity_extractors = [x(settings) for x in settings.extractors[ExtractorPass.ENTITY]]
