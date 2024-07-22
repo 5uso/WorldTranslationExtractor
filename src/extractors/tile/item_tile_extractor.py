@@ -6,9 +6,13 @@ from settings import Settings
 
 from amulet.api.block_entity import BlockEntity
 
-class JukeboxExtractor(TileExtractor):
-    extractor_name = 'jukebox'
-    match_tiles = ('jukebox',)
+class ItemTileExtractor(TileExtractor):
+    extractor_name = 'item_tile'
+    match_tiles = {
+        'jukebox': 'RecordItem',
+        'lectern': 'Book',
+        'decorated_pot': 'item'
+    }
 
     def __init__(self, settings: Settings) -> None:
         self.item_extractors = [x(settings) for x in settings.extractors[ExtractorPass.ITEM]]
@@ -16,9 +20,10 @@ class JukeboxExtractor(TileExtractor):
     def extract(self, dictionary: Dictionary, tile: BlockEntity) -> int:
         count = 0
 
-        if 'RecordItem' in tile.nbt:
-            count += handle_item(tile.nbt['RecordItem'], dictionary, self.item_extractors)
+        tag_name = self.match_tiles[tile.base_name]
+        if tag_name in tile.nbt:
+            count += handle_item(tile.nbt[tag_name], dictionary, self.item_extractors)
         
         return count
 
-extractor = JukeboxExtractor
+extractor = ItemTileExtractor
