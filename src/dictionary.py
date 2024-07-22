@@ -43,3 +43,6 @@ class Dictionary():
     
     def replace_component(self, nbt: StringTag, key: str) -> tuple[StringTag,int]:
         return nbt, 0
+    
+    def replace_command(self, cmd: str, key: str) -> tuple[str,int]:
+        return cmd, 0
