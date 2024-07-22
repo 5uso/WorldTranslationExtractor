@@ -11,7 +11,6 @@ class ScoreExtractor(DataFileExtractor):
         count = 0
 
         for score in data['data']['Objectives']:
-            print(score)
             score['DisplayName'], n = dictionary.replace_component(score['DisplayName'], f'score.{score["Name"]}.name')
             count += n
 
