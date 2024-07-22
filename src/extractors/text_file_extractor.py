@@ -10,5 +10,5 @@ class TextFileExtractor(BaseExtractor, metaclass=abc.ABCMeta):
 
     @classmethod
     @abc.abstractmethod
-    def extract(self, dictionary: Dictionary, text: list[str]) -> int:
+    def extract(self, dictionary: Dictionary, file: tuple[list[str],list[str]]) -> int:
         raise NotImplementedError

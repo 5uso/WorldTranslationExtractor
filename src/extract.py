@@ -112,7 +112,9 @@ def handle_text_files(path: str, dictionary: Dictionary, extractors: list):
     ):
         with open(f, 'r') as fd:
             lines = fd.readlines()
-        if any_nsc(extractor.extract(dictionary, lines) for extractor in extractors if any(re.fullmatch(p, os.path.basename(f)) for p in extractor.match_filenames)):
+            name, ext = os.path.splitext(os.path.basename(f))
+            parsed_path = os.path.normpath(f.removeprefix(path)).split(os.sep)[2:-1] + [name]
+        if any_nsc(extractor.extract(dictionary, (parsed_path, lines)) for extractor in extractors if any(re.fullmatch(p, os.path.basename(f)) for p in extractor.match_filenames)):
             with open(f, 'w') as fd:
                 fd.writelines(lines)
 
