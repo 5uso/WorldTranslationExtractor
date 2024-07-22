@@ -15,6 +15,7 @@ class ExitCode(enum.IntEnum):
     INVALID_SETTINGS = -2
     COULD_NOT_COPY = -3
     CHUNK_LOAD_ERROR = -4
+    KEY_ERROR = -5
 
 def get_argument_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
@@ -77,3 +78,6 @@ def run_terminal(args: argparse.Namespace) -> None:
     except ChunkLoadError as e:
         print(_('Error loading chunk: {}\nThis error may indicate the version of amulet you\'re using is not compatible with your Minecraft version.\nExiting...').format(e))
         exit(ExitCode.CHUNK_LOAD_ERROR)
+    except KeyError as e:
+        print(_('Error accessing tag: {}\nThis error may indicate the current extractors are not compatible with your Minecraft version.\nExiting...').format(e))
+        exit(ExitCode.KEY_ERROR)
