@@ -9,6 +9,7 @@ from amulet.api.block_entity import BlockEntity
 class VaultExtractor(TileExtractor):
     extractor_name = 'vault'
     match_tiles = ('vault',)
+    data_version_range = (3953, 3953)
 
     def __init__(self, settings: Settings) -> None:
         self.item_extractors = [x(settings) for x in settings.extractors[ExtractorPass.ITEM]]

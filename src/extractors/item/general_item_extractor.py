@@ -11,6 +11,7 @@ from amulet_nbt import NamedTag
 class GeneralItemExtractor(ItemExtractor):
     extractor_name = 'item'
     match_items = ('.*',)
+    data_version_range = (0, 0)
 
     def __init__(self, settings: Settings) -> None:
         self.indexes = defaultdict(lambda: 1)

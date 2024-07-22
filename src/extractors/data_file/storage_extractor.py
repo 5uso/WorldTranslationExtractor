@@ -6,6 +6,7 @@ from amulet_nbt import NamedTag, CompoundTag, ListTag, StringTag
 class StorageExtractor(DataFileExtractor):
     extractor_name = 'storage'
     match_filenames = ('command_storage_.*\.dat',)
+    data_version_range = (2225, 3953)
 
     def extract(self, dictionary: Dictionary, data: NamedTag) -> int:
         count = 0

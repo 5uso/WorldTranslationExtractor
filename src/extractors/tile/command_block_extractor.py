@@ -8,6 +8,7 @@ from amulet_nbt import StringTag
 class CommandBlockExtractor(TileExtractor):
     extractor_name = 'command_block'
     match_tiles = ('command_block',)
+    data_version_range = (819, 3953)
 
     def __init__(self, settings: Settings) -> None:
         self.index = 1

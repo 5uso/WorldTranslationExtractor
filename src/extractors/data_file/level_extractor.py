@@ -10,6 +10,7 @@ from amulet_nbt import NamedTag
 class LevelExtractor(DataFileExtractor):
     extractor_name = 'level'
     match_filenames = ('level\.dat',)
+    data_version_range = (169, 3953)
 
     def __init__(self, settings: Settings) -> None:
         self.entity_extractors = [x(settings) for x in settings.extractors[ExtractorPass.ENTITY]]

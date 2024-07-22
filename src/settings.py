@@ -12,6 +12,8 @@ class InvalidSettingsException(Exception):
         problems = []
         if 'missing_extractors' in info:
             problems.append(_('Extractors not found {}').format(info['missing_extractors']))
+        if 'incompatible_extractors' in info:
+            problems.append(_('Extractors incompatible with data version {}').format(info['incompatible_extractors']))
         if 'cannot_write' in info:
             problems.append(_('Could not write to file \'{}\'').format(info['cannot_write']))
         message = _("; ").join(problems) + '.'
@@ -33,14 +35,16 @@ class Settings:
         self.sort = False
         self.batch = 0
         self.indent = 0
+        self.data_version = 0
+        self.versionless = False
 
-    def from_args(args: Namespace) -> Self:
+    def from_args(args: Namespace, data_version: int) -> Self:
         s = Settings()
         info = dict()
 
         s.extractors = list_extractors()
         if args.extract:
-            s.extractors, missing_extractors = filter_extractors(args.extract, s.extractors)
+            s.extractors, missing_extractors = filter_extractors(args.extract, s.extractors, data_version)
             if missing_extractors:
                 info['missing_extractors'] = missing_extractors
 
@@ -57,6 +61,17 @@ class Settings:
         s.sort = args.sort
         s.batch = args.batch
         s.indent = args.indent
+        s.data_version = data_version
+        s.versionless = args.versionless
+
+        if not s.versionless:
+            incompatible_extractors = []
+            for extractor_pass in s.extractors:
+                for extractor in s.extractors[extractor_pass]:
+                    if extractor.data_version_range[0] > s.data_version or extractor.data_version_range[1] < s.data_version:
+                        incompatible_extractors.append(extractor.extractor_name)
+            if incompatible_extractors:
+                info['incompatible_extractors'] = incompatible_extractors
 
         if info:
             raise InvalidSettingsException(info)

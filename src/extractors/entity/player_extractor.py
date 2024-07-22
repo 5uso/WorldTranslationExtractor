@@ -9,6 +9,7 @@ from amulet.api.entity import Entity
 class PlayerExtractor(EntityExtractor):
     extractor_name = 'player'
     match_entities = ('player',)
+    data_version_range = (819, 3953)
 
     def __init__(self, settings: Settings) -> None:
         self.entity_extractors = [x(settings) for x in settings.extractors[ExtractorPass.ENTITY]]

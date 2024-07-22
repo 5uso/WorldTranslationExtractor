@@ -6,6 +6,7 @@ from amulet_nbt import NamedTag
 class ScoreExtractor(DataFileExtractor):
     extractor_name = 'score'
     match_filenames = ('scoreboard\.dat',)
+    data_version_range = (1519, 3953)
 
     def extract(self, dictionary: Dictionary, data: NamedTag) -> int:
         count = 0

@@ -33,6 +33,7 @@ def get_argument_parser() -> argparse.ArgumentParser:
     parser.add_argument('--sort', '-s', type=bool, action=argparse.BooleanOptionalAction, default=False, help=_('Sort output json alphabetically.'))
     parser.add_argument('--indent', '-i', type=int, default=2, help=_('Amount of spaces used to indent the output json.'))
     parser.add_argument('--batch', '-b', type=int, default=5000, help=_('When iterating the world, save every <BATCH> chunks.'))
+    parser.add_argument('--versionless', '-v', type=bool, action=argparse.BooleanOptionalAction, default=False, help=_('Ignore extractor data version incompatibilities.'))
 
     return parser
 
@@ -65,7 +66,7 @@ def run_terminal(args: argparse.Namespace) -> None:
         exit(ExitCode.NO_WORLD)
 
     try:
-        s = settings.Settings.from_args(args)
+        s = settings.Settings.from_args(args, w.data_version)
     except settings.InvalidSettingsException as e:
         print(_('Invalid settings: {}\nExiting...').format(e))
         exit(ExitCode.INVALID_SETTINGS)

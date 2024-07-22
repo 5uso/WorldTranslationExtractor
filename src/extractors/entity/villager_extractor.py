@@ -9,6 +9,7 @@ from amulet.api.entity import Entity
 class VillagerExtractor(EntityExtractor):
     extractor_name = 'villager'
     match_entities = ('villager', 'zombie_villager', 'wandering_trader')
+    data_version_range = (1952, 3953)
 
     def __init__(self, settings: Settings) -> None:
         self.item_extractors = [x(settings) for x in settings.extractors[ExtractorPass.ITEM]]

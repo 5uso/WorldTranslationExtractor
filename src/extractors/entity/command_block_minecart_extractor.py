@@ -8,6 +8,7 @@ from amulet_nbt import StringTag
 class CommandBlockMinecartExtractor(EntityExtractor):
     extractor_name = 'command_block_minecart'
     match_entities = ('command_block_minecart',)
+    data_version_range = (819, 3953)
 
     def __init__(self, settings: Settings) -> None:
         self.index = 1

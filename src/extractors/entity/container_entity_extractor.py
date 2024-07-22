@@ -23,6 +23,7 @@ class ContainerEntityExtractor(EntityExtractor):
         'piglin': 'Inventory',
         'allay': 'Inventory'
     }
+    data_version_range = (819, 3953)
 
     def __init__(self, settings: Settings) -> None:
         self.item_extractors = [x(settings) for x in settings.extractors[ExtractorPass.ITEM]]

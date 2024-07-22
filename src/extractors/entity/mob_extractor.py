@@ -9,6 +9,7 @@ from amulet.api.entity import Entity
 class MobExtractor(EntityExtractor):
     extractor_name = 'mob'
     match_entities = ('.*',) # Not all entities are mobs, but for future proofing it's better to assume they are
+    data_version_range = (169, 3953)
 
     def __init__(self, settings: Settings) -> None:
         self.item_extractors = [x(settings) for x in settings.extractors[ExtractorPass.ITEM]]

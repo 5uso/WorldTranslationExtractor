@@ -1,3 +1,4 @@
+import amulet_nbt
 import amulet
 
 class WorldLoadException(Exception):
@@ -9,6 +10,7 @@ class World():
     def __init__(self, path: str) -> None:
         self.path = path
         self.level = amulet.load_level(path)
+        self.data_version = int(amulet_nbt.load(path + '/level.dat')['Data']['DataVersion'])
 
 def try_load_world(path: str) -> World:
     try:

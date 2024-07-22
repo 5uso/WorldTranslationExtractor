@@ -11,6 +11,7 @@ from amulet.api.block_entity import BlockEntity
 class ContainerExtractor(TileExtractor):
     extractor_name = 'container'
     match_tiles = ('chest', 'furnace', 'shulker_box', 'barrel', 'smoker', 'blast_furnace', 'trapped_chest', 'hopper', 'dispenser', 'dropper', 'brewing_stand', 'campfire', 'chiseled_bookshelf', 'crafter')
+    data_version_range = (819, 3953)
 
     def __init__(self, settings: Settings) -> None:
         self.indexes = defaultdict(lambda: 1)

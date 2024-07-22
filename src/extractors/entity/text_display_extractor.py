@@ -7,6 +7,7 @@ from amulet.api.entity import Entity
 class TextDisplayExtractor(EntityExtractor):
     extractor_name = 'text_display'
     match_entities = ('text_display',)
+    data_version_range = (3337, 3953)
 
     def __init__(self, settings: Settings) -> None:
         self.index = 1

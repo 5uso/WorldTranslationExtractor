@@ -7,6 +7,7 @@ import abc
 
 class BaseExtractor(metaclass=Singleton):
     extractor_pass = ExtractorPass.NONE
+    data_version_range = (0, 0)
 
     def __init__(self, settings: Settings) -> None:
         pass

@@ -31,6 +31,7 @@ class ItemEntityExtractor(EntityExtractor):
         'arrow': ('item','weapon'),
         'spectral_arrow': ('item','weapon')
     }
+    data_version_range = (819, 3953)
 
     def __init__(self, settings: Settings) -> None:
         self.item_extractors = [x(settings) for x in settings.extractors[ExtractorPass.ITEM]]

@@ -10,6 +10,7 @@ from amulet.api.entity import Entity
 class SpawnerExtractor(TileExtractor):
     extractor_name = 'spawner'
     match_tiles = ('mob_spawner',)
+    data_version_range = (2860, 3953)
 
     def __init__(self, settings: Settings) -> None:
         self.entity_extractors = [x(settings) for x in settings.extractors[ExtractorPass.ENTITY]]

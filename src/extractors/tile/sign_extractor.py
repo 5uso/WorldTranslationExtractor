@@ -9,6 +9,7 @@ from amulet.api.block_entity import BlockEntity
 class SignExtractor(TileExtractor):
     extractor_name = 'sign'
     match_tiles = ('sign', 'hanging_sign')
+    data_version_range = (3463, 3953)
 
     def __init__(self, settings: Settings) -> None:
         self.index = 1
