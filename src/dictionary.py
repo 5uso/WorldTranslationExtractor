@@ -46,3 +46,6 @@ class Dictionary():
     
     def replace_command(self, cmd: str, key: str) -> tuple[str,int]:
         return cmd, 0
+    
+    def replace_other(self, string: str, key: str) -> tuple[str,int]:
+        return string, 0
