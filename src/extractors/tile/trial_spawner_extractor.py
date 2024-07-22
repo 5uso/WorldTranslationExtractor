@@ -27,9 +27,10 @@ class TrialSpawnerExtractor(TileExtractor):
                 entity = Entity(namespace, base_name, 0.0, 0.0, 0.0, potential['data']['entity'])
                 count += handle_entity(entity, dictionary, self.entity_extractors)
 
-        namespace, base_name = str(tile.nbt['spawn_data']['entity']['id']).split(':')
-        entity = Entity(namespace, base_name, 0.0, 0.0, 0.0, tile.nbt['spawn_data']['entity'])
-        count += handle_entity(entity, dictionary, self.entity_extractors)
+        if 'spawn_data' in tile.nbt:
+            namespace, base_name = str(tile.nbt['spawn_data']['entity']['id']).split(':')
+            entity = Entity(namespace, base_name, 0.0, 0.0, 0.0, tile.nbt['spawn_data']['entity'])
+            count += handle_entity(entity, dictionary, self.entity_extractors)
 
         return count
 
