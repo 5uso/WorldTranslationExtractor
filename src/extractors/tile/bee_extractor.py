@@ -19,7 +19,7 @@ class BeeExtractor(TileExtractor):
 
         for bee in tile.nbt['bees']:
             namespace, base_name = str(bee['entity_data']['id']).split(':')
-            entity = Entity(namespace, base_name, 0, 0, 0, bee['entity_data'])
+            entity = Entity(namespace, base_name, 0.0, 0.0, 0.0, bee['entity_data'])
             count += handle_entity(entity, dictionary, self.entity_extractors)
 
         return count

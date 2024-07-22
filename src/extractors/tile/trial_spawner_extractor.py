@@ -24,11 +24,11 @@ class TrialSpawnerExtractor(TileExtractor):
             # For some insane reason spawn_potentials and spawn_data in 1.21 are inconsistent with mob_spawner nbt
             for potential in tile.nbt[config]['spawn_potentials']:
                 namespace, base_name = str(potential['data']['entity']['id']).split(':')
-                entity = Entity(namespace, base_name, 0, 0, 0, potential['data']['entity'])
+                entity = Entity(namespace, base_name, 0.0, 0.0, 0.0, potential['data']['entity'])
                 count += handle_entity(entity, dictionary, self.entity_extractors)
 
         namespace, base_name = str(tile.nbt['spawn_data']['entity']['id']).split(':')
-        entity = Entity(namespace, base_name, 0, 0, 0, tile.nbt['spawn_data']['entity'])
+        entity = Entity(namespace, base_name, 0.0, 0.0, 0.0, tile.nbt['spawn_data']['entity'])
         count += handle_entity(entity, dictionary, self.entity_extractors)
 
         return count

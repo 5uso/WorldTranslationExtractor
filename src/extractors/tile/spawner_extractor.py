@@ -19,11 +19,11 @@ class SpawnerExtractor(TileExtractor):
 
         for potential in tile.nbt['SpawnPotentials']:
             namespace, base_name = str(potential['data']['entity']['id']).split(':')
-            entity = Entity(namespace, base_name, 0, 0, 0, potential['data']['entity'])
+            entity = Entity(namespace, base_name, 0.0, 0.0, 0.0, potential['data']['entity'])
             count += handle_entity(entity, dictionary, self.entity_extractors)
 
         namespace, base_name = str(tile.nbt['SpawnData']['entity']['id']).split(':')
-        entity = Entity(namespace, base_name, 0, 0, 0, tile.nbt['SpawnData']['entity'])
+        entity = Entity(namespace, base_name, 0.0, 0.0, 0.0, tile.nbt['SpawnData']['entity'])
         count += handle_entity(entity, dictionary, self.entity_extractors)
 
         return count
