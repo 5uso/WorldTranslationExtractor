@@ -64,8 +64,10 @@ def handle_chunks(world: World, settings: 'Settings', dictionary: Dictionary, ex
 
         print(_('Scanning dimension \'{}\'...').format(dimension))
         for i, coord in enumerate(tqdm(chunk_coords, unit = "chunk")):
-            handle_chunk(world.level.get_chunk(*coord, dimension), dictionary, extractors[ExtractorPass.TILE])
-            handle_entities(world.level.get_native_entities(*coord, dimension), world.level, coord, dimension, dictionary, extractors[ExtractorPass.ENTITY])
+            if extractors[ExtractorPass.TILE]:
+                handle_chunk(world.level.get_chunk(*coord, dimension), dictionary, extractors[ExtractorPass.TILE])
+            if extractors[ExtractorPass.ENTITY]:
+                handle_entities(world.level.get_native_entities(*coord, dimension), world.level, coord, dimension, dictionary, extractors[ExtractorPass.ENTITY])
 
             if not (i + 1) % settings.batch:
                 print()
@@ -121,14 +123,17 @@ def extract(world: World, settings: 'Settings') -> None:
     dictionary = Dictionary(settings)
     extractors = {k: [x(settings) for x in settings.extractors[k]] for k in settings.extractors}
 
-    print(_('Extracting from world:'))
-    handle_chunks(world, settings, dictionary, extractors)
-    print(_('Extracting from structures...'))
-    handle_structures(world.path, dictionary, extractors)
-    print(_('Extracting from data files...'))
-    handle_data_files(world.path, dictionary, extractors[ExtractorPass.DATA_FILE])
-    print(_('Extracting from text files...'))
-    handle_text_files(world.path, dictionary, extractors[ExtractorPass.TEXT_FILE])
+    if extractors[ExtractorPass.TILE] or extractors[ExtractorPass.ENTITY]:
+        print(_('Extracting from world:'))
+        handle_chunks(world, settings, dictionary, extractors)
+        print(_('Extracting from structures...'))
+        handle_structures(world.path, dictionary, extractors)
+    if extractors[ExtractorPass.DATA_FILE]:
+        print(_('Extracting from data files...'))
+        handle_data_files(world.path, dictionary, extractors[ExtractorPass.DATA_FILE])
+    if extractors[ExtractorPass.TEXT_FILE]:
+        print(_('Extracting from text files...'))
+        handle_text_files(world.path, dictionary, extractors[ExtractorPass.TEXT_FILE])
 
     print(_('Outputting lang to \'{}\'...').format(settings.out_lang))
     lang = dictionary.reverse()
