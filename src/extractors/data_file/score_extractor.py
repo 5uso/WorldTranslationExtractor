@@ -5,12 +5,13 @@ from amulet_nbt import NamedTag
 
 class ScoreExtractor(DataFileExtractor):
     extractor_name = 'score'
-    match_filenames = ('scoreboard.dat',)
+    match_filenames = ('scoreboard\.dat',)
 
     def extract(self, dictionary: Dictionary, data: NamedTag) -> int:
         count = 0
 
         for score in data['data']['Objectives']:
+            print(score)
             score['DisplayName'], n = dictionary.replace_component(score['DisplayName'], f'score.{score["Name"]}.name')
             count += n
 
