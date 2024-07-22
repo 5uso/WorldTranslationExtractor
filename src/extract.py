@@ -37,6 +37,8 @@ def list_extractors() -> dict[ExtractorPass,list]:
     return extractors
 
 def handle_tile(tile: BlockEntity, dictionary: Dictionary, extractors: list) -> int:
+    if 'utags' in tile.nbt:
+        tile = BlockEntity(tile.namespace, tile.base_name, tile.x, tile.y, tile.z, tile.nbt['utags'])
     return sum(extractor.extract(dictionary, tile) for extractor in extractors if any(re.fullmatch(p, tile.base_name) for p in extractor.match_tiles))
 
 def handle_chunk(chunk: Chunk, dictionary: Dictionary, extractors: list) -> None:
