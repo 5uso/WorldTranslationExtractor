@@ -8,7 +8,7 @@ from amulet.api.entity import Entity
 
 class SpawnerMinecartExtractor(EntityExtractor):
     extractor_name = 'spawner_minecart'
-    match_tiles = ('spawner_minecart',)
+    match_entities = ('spawner_minecart',)
 
     def __init__(self, settings: Settings) -> None:
         self.entity_extractors = [x(settings) for x in settings.extractors[ExtractorPass.ENTITY]]
