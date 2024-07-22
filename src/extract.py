@@ -117,7 +117,8 @@ def handle_text_files(path: str, dictionary: Dictionary, extractors: list):
                 fd.writelines(lines)
 
 def handle_item(item: NamedTag, dictionary: Dictionary, extractors: list) -> int:
-    return sum(extractor.extract(dictionary, item) for extractor in extractors if any(re.fullmatch(p, item['id']) for p in extractor.match_items))
+    namespace, base_name = str(item['id']).split(':')
+    return sum(extractor.extract(dictionary, item) for extractor in extractors if any(re.fullmatch(p, base_name) for p in extractor.match_items))
 
 def extract(world: World, settings: 'Settings') -> None:
     dictionary = Dictionary(settings)
