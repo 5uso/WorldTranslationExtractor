@@ -4,8 +4,6 @@ from dictionary import Dictionary
 from extract import handle_entity
 from settings import Settings
 
-import itertools as it
-
 from amulet.api.entity import Entity
 from amulet_nbt import NamedTag
 
