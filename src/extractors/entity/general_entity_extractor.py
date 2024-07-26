@@ -24,14 +24,15 @@ class GeneralEntityExtractor(EntityExtractor):
             entity.nbt['CustomName'], n = dictionary.replace_component(entity.nbt['CustomName'], f'entity.{entity.base_name}.{self.indexes[entity.base_name]}.name')
             count += n
 
+        if count:
+            self.indexes[entity.base_name] += 1
+
         if 'Passengers' in entity.nbt:
             for passenger in entity.nbt['Passengers']:
                 namespace, base_name = str(passenger['id']).split(':')
                 entity = Entity(namespace, base_name, 0.0, 0.0, 0.0, passenger)
                 count += handle_entity(entity, dictionary, self.entity_extractors)
 
-        if count:
-            self.indexes[entity.base_name] += 1
         return count
 
 extactor = GeneralEntityExtractor

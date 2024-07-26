@@ -24,11 +24,12 @@ class ContainerExtractor(TileExtractor):
             tile.nbt['CustomName'], n = dictionary.replace_component(tile.nbt['CustomName'], f'container.{tile.base_name}.{self.indexes[tile.base_name]}.name')
             count += n
 
+        if count:
+            self.indexes[tile.base_name] += 1
+
         for item in tile.nbt['Items']:
             count += handle_item(item, dictionary, self.item_extractors)
 
-        if count:
-            self.indexes[tile.base_name] += 1
         return count
 
 extractor = ContainerExtractor
