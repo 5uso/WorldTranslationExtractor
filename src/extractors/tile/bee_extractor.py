@@ -18,6 +18,8 @@ class BeeExtractor(TileExtractor):
     def extract(self, dictionary: Dictionary, tile: BlockEntity) -> int:
         count = 0
 
+        if 'bees' not in tile.nbt:
+            return 0
         for bee in tile.nbt['bees']:
             namespace, base_name = str(bee['entity_data']['id']).split(':')
             entity = Entity(namespace, base_name, 0.0, 0.0, 0.0, bee['entity_data'])
