@@ -1,5 +1,6 @@
 from collections.abc import Iterable
 from abc import ABCMeta
+import re
 
 class Singleton(ABCMeta):
     _instances = {}
@@ -15,3 +16,14 @@ def any_nsc(it: Iterable) -> bool:
     for a in it:
         result |= bool(a)
     return result
+
+def unescape(s: str, encoding: str = 'utf-8') -> str:
+    return s.encode('latin1').decode('unicode-escape').encode('latin1').decode(encoding)
+
+def full_unescape(s: str) -> str:
+    while '\\' in s:
+        try:
+            s = unescape(s)
+        except UnicodeDecodeError:
+            return s
+    return s
