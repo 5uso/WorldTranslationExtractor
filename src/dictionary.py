@@ -14,26 +14,40 @@ class Dictionary():
         self.keys = dict()
         self.current_matches = 0
 
-        self.component_patterns = [
-            ( # Normal text
-                re.compile(r'"text" *: *"((?:[^"\\]|\\\\"|\\.)*)"'),
-                lambda key: (
-                    lambda match: f'"translate":"{self.add_entry(full_unescape(match.group(1)), key)}"'
-                )
-            ),
-            ( # Escaped text
-                re.compile(r'\\"text\\" *: *\\"((?:[^"\\]|\\\\.)*)\\"'),
-                lambda key: (
-                    lambda match: f'\\"translate\\":\\"{self.add_entry(full_unescape(match.group(1)), key)}\\"'
-                )
-            ),
-            ( # Plain text (The game now converts most components to plain strings which is a pain to differentiate them from data)
-                re.compile(r'^"([^"]+)"$'),
-                lambda key: (
-                    lambda match: f'{{"translate":"{self.add_entry(match.group(1), key)}"}}'
-                )
+        normal_text_pattern = ( # Normal text
+            re.compile(r'"text" *: *"((?:[^"\\]|\\\\"|\\.)*)"'),
+            lambda key: (
+                lambda match: f'"translate":"{self.add_entry(full_unescape(match.group(1)), key)}"'
             )
-        ]
+        )
+        escaped_text_pattern = ( # Escaped text
+            re.compile(r'\\"text\\" *: *\\"((?:[^"\\]|\\\\.)*)\\"'),
+            lambda key: (
+                lambda match: f'\\"translate\\":\\"{self.add_entry(full_unescape(match.group(1)), key)}\\"'
+            )
+        )
+        plain_text_pattern = ( # Plain text (The game now converts most components to plain strings which is a pain to differentiate them from data)
+            re.compile(r'^"([^"]+)"$'),
+            lambda key: (
+                lambda match: f'{{"translate":"{self.add_entry(match.group(1), key)}"}}'
+            )
+        )
+        bossbar_name_pattern = (
+            re.compile(r'bossbar set ([^ ]+) name "(.*)"'),
+            lambda key: (
+                lambda match: f'bossbar set {match.group(1)} name {{"translate":"{self.add_entry(match.group(2), key)}"}}'
+            )
+        )
+        bossbar_add_pattern = (
+            re.compile(r'bossbar add ([^ ]+) "(.*)"'),
+            lambda key: (
+                lambda match: f'bossbar add {match.group(1)} {{"translate":"{self.add_entry(match.group(2), key)}"}}'
+            )
+        )
+
+        self.component_patterns = [normal_text_pattern, escaped_text_pattern, plain_text_pattern]
+        self.command_patterns = [normal_text_pattern, escaped_text_pattern, bossbar_name_pattern, bossbar_add_pattern]
+        self.other_patterns = [normal_text_pattern, escaped_text_pattern]
 
     def add_entry(self, text: str, key: str) -> str:
         self.current_matches += 1
@@ -76,9 +90,6 @@ class Dictionary():
             text = pattern.sub(string=text, repl=matcher(key))
         return StringTag(text), self.current_matches
     
-    command_patterns = [
-        
-    ]
     def replace_command(self, cmd: str, key: str) -> tuple[str,int]:
         pattern: re.Pattern
         self.current_matches = 0
@@ -86,9 +97,6 @@ class Dictionary():
             cmd = pattern.sub(string=cmd, repl=matcher(key))
         return cmd, self.current_matches
     
-    other_patterns = [
-        
-    ]
     def replace_other(self, string: str, key: str) -> tuple[str,int]:
         pattern: re.Pattern
         self.current_matches = 0
