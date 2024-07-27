@@ -18,7 +18,8 @@ class StorageExtractor(DataFileExtractor):
                 if isinstance(tag, CompoundTag):
                     for name in tag:
                         if isinstance(tag[name], StringTag):
-                            tag[name], n = dictionary.replace_component(tag[name], f'storage.{storage_name}')
+                            s, n = dictionary.replace_other(str(tag[name]), f'storage.{storage_name}')
+                            tag[name] = StringTag(s)
                             count += n
                             continue
                         stack.append(tag[name])
@@ -26,7 +27,8 @@ class StorageExtractor(DataFileExtractor):
                 if isinstance(tag, ListTag):
                     for i in range(len(tag)):
                         if isinstance(tag[i], StringTag):
-                            tag[i], n = dictionary.replace_component(tag[i], f'storage.{storage_name}')
+                            s, n = dictionary.replace_other(str(tag[i]), f'storage.{storage_name}')
+                            tag[i] = StringTag(s)
                             count += n
                             continue
                         stack.append(tag[i])
