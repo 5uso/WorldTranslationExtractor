@@ -1,3 +1,5 @@
+from util import full_unescape
+
 from amulet_nbt import StringTag
 
 import re
@@ -12,7 +14,29 @@ class Dictionary():
         self.keys = dict()
         self.current_matches = 0
 
+        self.component_patterns = [
+            ( # Normal text
+                re.compile(r'"text" *: *"((?:[^"\\]|\\\\"|\\.)*)"'),
+                lambda key: (
+                    lambda match: f'"translate":"{self.add_entry(full_unescape(match.group(1)), key)}"'
+                )
+            ),
+            ( # Escaped text
+                re.compile(r'\\"text\\" *: *\\"((?:[^"\\]|\\\\.)*)\\"'),
+                lambda key: (
+                    lambda match: f'\\"translate\\":\\"{self.add_entry(full_unescape(match.group(1)), key)}\\"'
+                )
+            ),
+            ( # Plain text (The game now converts most components to plain strings which is a pain to differentiate them from data)
+                re.compile(r'^"([^"]+)"$'),
+                lambda key: (
+                    lambda match: f'{{"translate":"{self.add_entry(match.group(1), key)}"}}'
+                )
+            )
+        ]
+
     def add_entry(self, text: str, key: str) -> str:
+        self.current_matches += 1
         if text in self.data:
             if not self.keepdup:
                 return self.data[text]
@@ -44,9 +68,6 @@ class Dictionary():
         self.keys[key] = 0
         return key
     
-    component_patterns = [
-
-    ]
     def replace_component(self, nbt: StringTag, key: str) -> tuple[StringTag,int]:
         text = str(nbt)
         pattern: re.Pattern
