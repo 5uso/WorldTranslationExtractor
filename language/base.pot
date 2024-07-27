@@ -1,0 +1,150 @@
+# World Translation Extractor Language File.
+# Copyright (C) 2024 Suso
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: WorldTranslationExtractor 1.0.0\n"
+"POT-Creation-Date: 2024-07-27 23:57+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+#: .\src\extract.py:71
+msgid "Scanning dimension '{}'..."
+msgstr ""
+
+#: .\src\extract.py:140
+msgid "Extracting from world:"
+msgstr ""
+
+#: .\src\extract.py:142
+msgid "Extracting from structures..."
+msgstr ""
+
+#: .\src\extract.py:145
+msgid "Extracting from data files..."
+msgstr ""
+
+#: .\src\extract.py:148
+msgid "Extracting from text files..."
+msgstr ""
+
+#: .\src\extract.py:151
+msgid "Outputting lang to '{}'..."
+msgstr ""
+
+#: .\src\extract.py:156
+msgid "Done!"
+msgstr ""
+
+#: .\src\settings.py:14
+msgid "Extractors not found {}"
+msgstr ""
+
+#: .\src\settings.py:16
+msgid "Extractors incompatible with data version {}"
+msgstr ""
+
+#: .\src\settings.py:18
+msgid "Could not write to file '{}'"
+msgstr ""
+
+#: .\src\settings.py:19
+msgid "; "
+msgstr ""
+
+#: .\src\wte.py:23
+msgid "A tool to extract translatable text from Minecraft worlds to facilitate localization."
+msgstr ""
+
+#: .\src\wte.py:26
+msgid "Path to the target world."
+msgstr ""
+
+#: .\src\wte.py:27
+msgid "Path to output a translated copy of the world. By default, outputs to <WORLD>_wte."
+msgstr ""
+
+#: .\src\wte.py:28
+msgid "Delete previous contents of <OUT> before extracting."
+msgstr ""
+
+#: .\src\wte.py:29
+msgid "Path to output translation json. By default, outputs to wte_lang.json."
+msgstr ""
+
+#: .\src\wte.py:30
+msgid "An extractor to run over the world, multiple may be selected. If no extractors are specified, all available extractors will be run."
+msgstr ""
+
+#: .\src\wte.py:31
+msgid "A dimension to scan, multiple may be selected. If no dimensions are specified, all dimensions will be scanned."
+msgstr ""
+
+#: .\src\wte.py:32
+msgid "Keep duplicate translation texts as separate keys."
+msgstr ""
+
+#: .\src\wte.py:33
+msgid "Sort output json alphabetically."
+msgstr ""
+
+#: .\src\wte.py:34
+msgid "Amount of spaces used to indent the output json."
+msgstr ""
+
+#: .\src\wte.py:35
+msgid "When iterating the world, save every <BATCH> chunks."
+msgstr ""
+
+#: .\src\wte.py:36
+msgid "Ignore extractor data version incompatibilities."
+msgstr ""
+
+#: .\src\wte.py:47
+msgid "Creating working copy of the world..."
+msgstr ""
+
+#: .\src\wte.py:59
+msgid ""
+"Could not copy world: {}.\n"
+"Exiting..."
+msgstr ""
+
+#: .\src\wte.py:65
+msgid ""
+"Could not load requested world: {}.\n"
+"Exiting..."
+msgstr ""
+
+#: .\src\wte.py:71
+msgid ""
+"Invalid settings: {}\n"
+"Exiting..."
+msgstr ""
+
+#: .\src\wte.py:77
+msgid ""
+"Extraction interrupted. Output file partially translated.\n"
+"Exiting..."
+msgstr ""
+
+#: .\src\wte.py:80
+msgid ""
+"Error loading chunk: {}\n"
+"This error may indicate the version of amulet you're using is not compatible with your Minecraft version.\n"
+"Exiting..."
+msgstr ""
+
+#: .\src\wte.py:83
+msgid ""
+"Error accessing tag: {}\n"
+"This error may indicate the current extractors are not compatible with your Minecraft version.\n"
+"Exiting..."
+msgstr ""
+
