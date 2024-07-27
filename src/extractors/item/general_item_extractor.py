@@ -51,8 +51,8 @@ class GeneralItemExtractor(ItemExtractor):
 
         if 'minecraft:container' in item['components']: # What the fuck????
             for useless_wrapper_that_only_helps_make_the_format_inconsistent_with_actual_containers in item['components']['minecraft:container']:
-                item = useless_wrapper_that_only_helps_make_the_format_inconsistent_with_actual_containers['item']
-                count += handle_item(item, dictionary, self.item_extractors)
+                inner_item = useless_wrapper_that_only_helps_make_the_format_inconsistent_with_actual_containers['item']
+                count += handle_item(inner_item, dictionary, self.item_extractors)
 
         if 'minecraft:entity_data' in item['components']:
             namespace, base_name = str(item['components']['minecraft:entity_data']['id']).split(':')
