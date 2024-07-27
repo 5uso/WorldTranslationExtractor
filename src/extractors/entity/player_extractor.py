@@ -25,8 +25,8 @@ class PlayerExtractor(EntityExtractor):
         for entity_slot in ('ShoulderEntityLeft', 'ShoulderEntityRight'):
             if entity_slot in entity.nbt:
                 namespace, base_name = str(entity.nbt[entity_slot]['id']).split(':')
-                entity = Entity(namespace, base_name, 0.0, 0.0, 0.0, entity.nbt[entity_slot])
-                count += handle_entity(entity, dictionary, self.entity_extractors)
+                inner_entity = Entity(namespace, base_name, 0.0, 0.0, 0.0, entity.nbt[entity_slot])
+                count += handle_entity(inner_entity, dictionary, self.entity_extractors)
 
         return count
 

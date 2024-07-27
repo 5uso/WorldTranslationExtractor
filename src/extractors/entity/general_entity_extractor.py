@@ -30,8 +30,8 @@ class GeneralEntityExtractor(EntityExtractor):
         if 'Passengers' in entity.nbt:
             for passenger in entity.nbt['Passengers']:
                 namespace, base_name = str(passenger['id']).split(':')
-                entity = Entity(namespace, base_name, 0.0, 0.0, 0.0, passenger)
-                count += handle_entity(entity, dictionary, self.entity_extractors)
+                inner_entity = Entity(namespace, base_name, 0.0, 0.0, 0.0, passenger)
+                count += handle_entity(inner_entity, dictionary, self.entity_extractors)
 
         return count
 

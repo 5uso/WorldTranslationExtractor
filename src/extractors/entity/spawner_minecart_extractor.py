@@ -19,13 +19,13 @@ class SpawnerMinecartExtractor(EntityExtractor):
 
         for potential in entity.nbt['SpawnPotentials']:
             namespace, base_name = str(potential['data']['entity']['id']).split(':')
-            entity = Entity(namespace, base_name, 0.0, 0.0, 0.0, potential['data']['entity'])
-            count += handle_entity(entity, dictionary, self.entity_extractors)
+            inner_entity = Entity(namespace, base_name, 0.0, 0.0, 0.0, potential['data']['entity'])
+            count += handle_entity(inner_entity, dictionary, self.entity_extractors)
 
         if 'SpawnData' in entity.nbt:
             namespace, base_name = str(entity.nbt['SpawnData']['entity']['id']).split(':')
-            entity = Entity(namespace, base_name, 0.0, 0.0, 0.0, entity.nbt['SpawnData']['entity'])
-            count += handle_entity(entity, dictionary, self.entity_extractors)
+            inner_entity = Entity(namespace, base_name, 0.0, 0.0, 0.0, entity.nbt['SpawnData']['entity'])
+            count += handle_entity(inner_entity, dictionary, self.entity_extractors)
 
         return count
 
