@@ -2,6 +2,8 @@
  
 A tool to extract translatable text from Minecraft worlds to facilitate localization.
 
+Read this file in other languages: [ES](./language/es/README.md)
+
 ## Basics
 
 Scans a whole save and associated files, finding json text components (as well as plain text where applicable) and replacing them with translate json components.
