@@ -119,6 +119,8 @@ def handle_text_files(path: str, dictionary: Dictionary, extractors: list):
                 fd.writelines(lines)
 
 def handle_item(item: NamedTag, dictionary: Dictionary, extractors: list) -> int:
+    if 'id' not in item:
+        return 0
     namespace, base_name = str(item['id']).split(':')
     return sum(extractor.extract(dictionary, item) for extractor in extractors if any(re.fullmatch(p, base_name) for p in extractor.match_items))
 
