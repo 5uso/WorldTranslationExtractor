@@ -14,9 +14,9 @@ from amulet.api.data_types import VersionIdentifierType, Dimension, ChunkCoordin
 from amulet.api.chunk.entity_list import EntityList
 from amulet.api.level.world import World as Level
 from amulet.api.block_entity import BlockEntity
+from amulet_nbt import NamedTag, ListTag
 from amulet.api.entity import Entity
 from amulet.api.chunk import Chunk
-from amulet_nbt import NamedTag
 import amulet_nbt as nbt
 
 from typing import TYPE_CHECKING
@@ -41,8 +41,14 @@ def handle_tile(tile: BlockEntity, dictionary: Dictionary, extractors: list) -> 
         tile = BlockEntity(tile.namespace, tile.base_name, tile.x, tile.y, tile.z, tile.nbt['utags'])
     return sum(extractor.extract(dictionary, tile) for extractor in extractors if any(re.fullmatch(p, tile.base_name) for p in extractor.match_tiles))
 
-def handle_chunk(chunk: Chunk, dictionary: Dictionary, extractors: list) -> None:
-    chunk.changed = any_nsc(handle_tile(block_entity, dictionary, extractors) for block_entity in chunk.block_entities)
+def handle_tiles(tiles: ListTag, dictionary: Dictionary, extractors: list) -> bool:
+    changed = False
+    for block_entity in tiles:
+        namespace, base_name = str(block_entity['id']).split(':')
+        x, y, z = int(block_entity['x']), int(block_entity['y']), int(block_entity['z'])
+        tile = BlockEntity(namespace, base_name, x, y, z, block_entity)
+        changed |= handle_tile(tile, dictionary, extractors)
+    return changed
 
 def handle_entity(entity: Entity, dictionary: Dictionary, extractors: list) -> int:
     return sum(extractor.extract(dictionary, entity) for extractor in extractors if any(re.fullmatch(p, entity.base_name) for p in extractor.match_entities))
@@ -65,7 +71,9 @@ def handle_chunks(world: World, settings: 'Settings', dictionary: Dictionary, ex
         print(_('Scanning dimension \'{}\'...').format(dimension))
         for i, coord in enumerate(tqdm(chunk_coords, unit = "chunk")):
             if extractors[ExtractorPass.TILE]:
-                handle_chunk(world.level.get_chunk(*coord, dimension), dictionary, extractors[ExtractorPass.TILE])
+                chunk_data = world.level.level_wrapper.get_raw_chunk_data(*coord, dimension)
+                if handle_tiles(chunk_data['block_entities'], dictionary, extractors[ExtractorPass.TILE]):
+                    world.level.level_wrapper.put_raw_chunk_data(*coord, chunk_data, dimension)
             if extractors[ExtractorPass.ENTITY]:
                 handle_entities(world.level.get_native_entities(*coord, dimension), world.level, coord, dimension, dictionary, extractors[ExtractorPass.ENTITY])
 
