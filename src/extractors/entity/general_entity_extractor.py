@@ -35,4 +35,4 @@ class GeneralEntityExtractor(EntityExtractor):
 
         return count
 
-extactor = GeneralEntityExtractor
+extractor = GeneralEntityExtractor

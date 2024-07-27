@@ -23,4 +23,4 @@ class TextDisplayExtractor(EntityExtractor):
             self.index += 1
         return count
 
-extactor = TextDisplayExtractor
+extractor = TextDisplayExtractor

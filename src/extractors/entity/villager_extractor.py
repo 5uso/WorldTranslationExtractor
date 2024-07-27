@@ -25,4 +25,4 @@ class VillagerExtractor(EntityExtractor):
 
         return count
 
-extactor = VillagerExtractor
+extractor = VillagerExtractor

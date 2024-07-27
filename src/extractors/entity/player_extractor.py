@@ -30,4 +30,4 @@ class PlayerExtractor(EntityExtractor):
 
         return count
 
-extactor = PlayerExtractor
+extractor = PlayerExtractor

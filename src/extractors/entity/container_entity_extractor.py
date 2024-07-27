@@ -38,4 +38,4 @@ class ContainerEntityExtractor(EntityExtractor):
         
         return count
 
-extactor = ContainerEntityExtractor
+extractor = ContainerEntityExtractor

@@ -45,4 +45,4 @@ class ItemEntityExtractor(EntityExtractor):
         
         return count
 
-extactor = ItemEntityExtractor
+extractor = ItemEntityExtractor

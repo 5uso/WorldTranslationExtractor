@@ -30,4 +30,4 @@ class MobExtractor(EntityExtractor):
 
         return count
 
-extactor = MobExtractor
+extractor = MobExtractor
