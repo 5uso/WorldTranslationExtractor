@@ -27,8 +27,9 @@ class ContainerExtractor(TileExtractor):
         if count:
             self.indexes[tile.base_name] += 1
 
-        for item in tile.nbt['Items']:
-            count += handle_item(item, dictionary, self.item_extractors)
+        if 'Items' in tile.nbt:
+            for item in tile.nbt['Items']:
+                count += handle_item(item, dictionary, self.item_extractors)
 
         return count
 
