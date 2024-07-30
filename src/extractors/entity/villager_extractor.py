@@ -19,9 +19,12 @@ class VillagerExtractor(EntityExtractor):
 
         if 'Offers' in entity.nbt:
             for offer in entity.nbt['Offers']['Recipes']:
-                count += handle_item(offer['buy'], dictionary, self.item_extractors)
-                count += handle_item(offer['buyB'], dictionary, self.item_extractors)
-                count += handle_item(offer['sell'], dictionary, self.item_extractors)
+                if 'buy' in offer:
+                    count += handle_item(offer['buy'], dictionary, self.item_extractors)
+                if 'buyB' in offer:
+                    count += handle_item(offer['buyB'], dictionary, self.item_extractors)
+                if 'sell' in offer:
+                    count += handle_item(offer['sell'], dictionary, self.item_extractors)
 
         return count
 
