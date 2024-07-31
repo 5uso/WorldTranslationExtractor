@@ -14,7 +14,7 @@ class CommandBlockMinecartExtractor(EntityExtractor):
         self.index = 1
 
     def extract(self, dictionary: Dictionary, entity: Entity) -> int:
-        cmd, count = dictionary.replace_command(entity.nbt['Command'], f'command_block_minecart.{self.index}.command')
+        cmd, count = dictionary.replace_command(str(entity.nbt['Command']), f'command_block_minecart.{self.index}.command')
         entity.nbt['Command'] = StringTag(cmd)
 
         if count:

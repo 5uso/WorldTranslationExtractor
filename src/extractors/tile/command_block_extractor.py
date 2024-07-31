@@ -14,7 +14,7 @@ class CommandBlockExtractor(TileExtractor):
         self.index = 1
 
     def extract(self, dictionary: Dictionary, tile: BlockEntity) -> int:
-        cmd, count = dictionary.replace_command(tile.nbt['Command'], f'command_block.{self.index}.command')
+        cmd, count = dictionary.replace_command(str(tile.nbt['Command']), f'command_block.{self.index}.command')
         tile.nbt['Command'] = StringTag(cmd)
 
         if count:
