@@ -118,7 +118,7 @@ def handle_text_files(path: str, dictionary: Dictionary, extractors: list):
         glob(path + '/datapacks/*/data/*/*/**/*.mcfunction', recursive=True),
         glob(path + '/datapacks/*/data/*/*/**/*.json', recursive=True)
     ):
-        with open(f, 'r') as fd:
+        with open(f, 'r', encoding="utf8") as fd:
             lines = fd.readlines()
             name, ext = os.path.splitext(os.path.basename(f))
             parsed_path = os.path.normpath(f.removeprefix(path)).split(os.sep)[2:-1] + [name]
