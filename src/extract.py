@@ -72,7 +72,7 @@ def handle_chunks(world: World, settings: 'Settings', dictionary: Dictionary, ex
         for i, coord in enumerate(tqdm(chunk_coords, unit = "chunk")):
             if extractors[ExtractorPass.TILE]:
                 chunk_data = world.level.level_wrapper.get_raw_chunk_data(*coord, dimension)
-                if handle_tiles(chunk_data['block_entities'], dictionary, extractors[ExtractorPass.TILE]):
+                if 'block_entities' in chunk_data and handle_tiles(chunk_data['block_entities'], dictionary, extractors[ExtractorPass.TILE]):
                     world.level.level_wrapper.put_raw_chunk_data(*coord, chunk_data, dimension)
             if extractors[ExtractorPass.ENTITY]:
                 handle_entities(world.level.get_native_entities(*coord, dimension), world.level, coord, dimension, dictionary, extractors[ExtractorPass.ENTITY])
