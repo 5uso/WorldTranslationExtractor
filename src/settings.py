@@ -44,7 +44,7 @@ class Settings:
 
         s.extractors = list_extractors()
         if args.extract:
-            s.extractors, missing_extractors = filter_extractors(args.extract, s.extractors, data_version)
+            s.extractors, missing_extractors = filter_extractors(args.extract, s.extractors)
             if missing_extractors:
                 info['missing_extractors'] = missing_extractors
 
