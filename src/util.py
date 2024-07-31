@@ -18,7 +18,7 @@ def any_nsc(it: Iterable) -> bool:
     return result
 
 def unescape(s: str, encoding: str = 'utf-8') -> str:
-    return s.encode('latin1').decode('unicode-escape').encode('latin1').decode(encoding)
+    return bytearray(s, encoding=encoding).decode('unicode-escape').encode('latin1').decode(encoding)
 
 def full_unescape(s: str) -> str:
     while '\\' in s:
