@@ -6,7 +6,7 @@ import abc
 
 from amulet_nbt import NamedTag
 
-class DataFileExtractor(BaseExtractor, metaclass=abc.ABCMeta):
+class DataFileExtractor(BaseExtractor):
     extractor_pass = ExtractorPass.DATA_FILE
     match_filenames = ()
 

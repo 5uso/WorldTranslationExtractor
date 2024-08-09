@@ -4,7 +4,7 @@ from dictionary import Dictionary
 
 import abc
 
-class TextFileExtractor(BaseExtractor, metaclass=abc.ABCMeta):
+class TextFileExtractor(BaseExtractor):
     extractor_pass = ExtractorPass.TEXT_FILE
     match_filenames = ()
 
