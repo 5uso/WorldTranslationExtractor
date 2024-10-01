@@ -14,7 +14,7 @@
 
 World Translation Extractor 目前提供命令行界面。
 
-```
+```bash
 python main.py [-h] --world WORLD [--out OUT] [--force | -f]
                                    [--lang LANG] [--extract EXTRACT] [--dimension DIMENSION]
                                    [--keepdup | -k] [--sort | -s]
