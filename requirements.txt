@@ -1,3 +1,3 @@
 amulet-core==1.9.25
-amulet-nbt==4.0.0a3
+amulet-nbt==2.1.3
 tqdm==4.66.5
