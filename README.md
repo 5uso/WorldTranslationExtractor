@@ -2,7 +2,9 @@
  
 A tool to extract translatable text from Minecraft worlds to facilitate localization.
 
-Read this file in other languages: [ES](./language/es/README.md)
+Read this file in other languages:
+- [Español](./language/es/README.md)
+- [简体中文](./language/zh_CN/README.md)
 
 ## Basics
 
