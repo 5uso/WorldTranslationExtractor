@@ -1,0 +1,163 @@
+# World Translation Extractor 语言文件
+# Copyright (C) 2024 Suso, Wulian233(捂脸)
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: WorldTranslationExtractor 1.0.0\n"
+"POT-Creation-Date: 2024-10-01 13:45+0800\n"
+"PO-Revision-Date: 2024-10-01 13:45+0800\n"
+"Last-Translator: Wulian233\n"
+"Language-Team: None\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+#: .\src\extract.py:71
+msgid "Scanning dimension '{}'..."
+msgstr "正在扫描维度“{}”……"
+
+#: .\src\extract.py:140
+msgid "Extracting from world:"
+msgstr "从存档提取："
+
+#: .\src\extract.py:142
+msgid "Extracting from structures..."
+msgstr "正在从结构中提取……"
+
+#: .\src\extract.py:145
+msgid "Extracting from data files..."
+msgstr "正在从数据文件中提取……"
+
+#: .\src\extract.py:148
+msgid "Extracting from text files..."
+msgstr "正在从文本文件中提取……"
+
+#: .\src\extract.py:151
+msgid "Outputting lang to '{}'..."
+msgstr "正在输出语言文件到“{}”……"
+
+#: .\src\extract.py:156
+msgid "Done!"
+msgstr "完成！"
+
+#: .\src\settings.py:14
+msgid "Extractors not found {}"
+msgstr "未找到提取器 {}"
+
+#: .\src\settings.py:16
+msgid "Extractors incompatible with data version {}"
+msgstr "提取器与数据版本 {} 不兼容"
+
+#: .\src\settings.py:18
+msgid "Could not write to file '{}'"
+msgstr "无法写入文件“{}”"
+
+#: .\src\settings.py:19
+msgid "; "
+msgstr "；"
+
+#: .\src\wte.py:23
+msgid "A tool to extract translatable text from Minecraft worlds to facilitate localization."
+msgstr "一个从MC存档中提取可翻译文本以便于本地化的工具。"
+
+#: .\src\wte.py:26
+msgid "Path to the target world."
+msgstr "目标存档的路径。"
+
+#: .\src\wte.py:27
+msgid "Path to output a translated copy of the world. By default, outputs to <WORLD>_wte."
+msgstr "输出翻译文件的路径，默认路径为 <WORLD>_wte。"
+
+#: .\src\wte.py:28
+msgid "Delete previous contents of <OUT> before extracting."
+msgstr "在提取前删除 <OUT> 中的现有内容。"
+
+#: .\src\wte.py:29
+msgid "Path to output translation json. By default, outputs to wte_lang.json."
+msgstr "指定输出翻译 JSON 文件的路径，默认为 wte_lang.json。"
+
+#: .\src\wte.py:30
+msgid "An extractor to run over the world, multiple may be selected. If no extractors are specified, all available extractors will be run."
+msgstr "指定要运行的提取器，可以指定多个。不指定时将运行所有可用的提取器。"
+
+#: .\src\wte.py:31
+msgid "A dimension to scan, multiple may be selected. If no dimensions are specified, all dimensions will be scanned."
+msgstr "指定要扫描的维度，可以选择多个。若不指定，则扫描所有维度。"
+
+#: .\src\wte.py:32
+msgid "Keep duplicate translation texts as separate keys."
+msgstr "保留重复的翻译文本作为单独的键。"
+
+#: .\src\wte.py:33
+msgid "Sort output json alphabetically."
+msgstr "按字母顺序排序输出 JSON。"
+
+#: .\src\wte.py:34
+msgid "Amount of spaces used to indent the output json."
+msgstr "输出 JSON 的缩进空格数。"
+
+#: .\src\wte.py:35
+msgid "When iterating the world, save every <BATCH> chunks."
+msgstr "遍历存档时，每处理 <BATCH> 个区块保存一次。"
+
+#: .\src\wte.py:36
+msgid "Ignore extractor data version incompatibilities."
+msgstr "忽略提取器与数据版本的兼容性问题。"
+
+#: .\src\wte.py:47
+msgid "Creating working copy of the world..."
+msgstr "正在创建存档备份……"
+
+#: .\src\wte.py:59
+msgid ""
+"Could not copy world: {}.\n"
+"Exiting..."
+msgstr ""
+"无法复制世界：{}。\n"
+"正在退出……"
+
+#: .\src\wte.py:65
+msgid ""
+"Could not load requested world: {}.\n"
+"Exiting..."
+msgstr ""
+"无法加载请求的世界：{}。\n"
+"正在退出……"
+
+#: .\src\wte.py:71
+msgid ""
+"Invalid settings: {}\n"
+"Exiting..."
+msgstr ""
+"设置无效：{}\n"
+"正在退出……"
+
+#: .\src\wte.py:77
+msgid ""
+"Extraction interrupted. Output file partially translated.\n"
+"Exiting..."
+msgstr ""
+"提取被中断。输出文件部分翻译完成。\n"
+"正在退出……"
+
+#: .\src\wte.py:80
+msgid ""
+"Error loading chunk: {}\n"
+"This error may indicate the version of amulet you're using is not compatible with your Minecraft version.\n"
+"Exiting..."
+msgstr ""
+"加载区块时出错：{}\n"
+"此错误可能表明您使用的 Amulet 版本与 Minecraft 版本不兼容。\n"
+"正在退出……"
+
+#: .\src\wte.py:83
+msgid ""
+"Error accessing tag: {}\n"
+"This error may indicate the current extractors are not compatible with your Minecraft version.\n"
+"Exiting..."
+msgstr ""
+"访问标签时出错：{}\n"
+"此错误可能表明当前的提取器与 Minecraft 版本不兼容。\n"
+"正在退出……"
